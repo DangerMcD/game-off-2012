@@ -26,6 +26,7 @@
 		{
 			//Create Game
 			game = new Game(this);
+			
 			dataM = new DataManager(this);
 			input = new InputManager();
 			
@@ -39,8 +40,11 @@
 			
 			//Attach Listeners
 			addEventListener(Event.ENTER_FRAME, Update);
-			//stage.addEventListener(MouseEvent.MOUSE_DOWN, game.player.compareMouseSelection);
-			//this.addEventListener(MouseEvent.CLICK, game.player.compareMouseSelection);
+			
+			//Create Main Priority for ANY mouse click
+			stage.addEventListener(MouseEvent.MOUSE_DOWN, game.player.compareObjSelection, true, 100);
+			stage.addEventListener(MouseEvent.MOUSE_DOWN, game.player.compareStageSelection);
+			
 			//Keyboard Listener
 			stage.addEventListener(KeyboardEvent.KEY_UP, KeyUp);
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, KeyDown);

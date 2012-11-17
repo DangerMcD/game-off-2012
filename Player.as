@@ -44,13 +44,18 @@
 			}
 		}		
 		
-		public function compareMouseSelection(e:MouseEvent)
+		public function compareObjSelection(e:MouseEvent)
+		{
+			trace("PRESS ON OBJ");
+			clearSelection();
+		}
+		
+		public function compareStageSelection(e:MouseEvent)
 		{
 			if(e.eventPhase!=EventPhase.BUBBLING_PHASE)
 			{
 				trace("PRESS ON STAGE");
-				if(!(e.currentTarget is GameObject))
-					clearSelection();
+				clearSelection();
 			}
 		}
 		
