@@ -7,8 +7,8 @@
 	public class Main extends MovieClip
 	{
 		public var game: Game;
-		private var dataM: DataManager;
-		private var input: InputManager;
+		public var dataM: DataManager;
+		public var input: InputManager;
 		
 		private var lastTime: Number;
 		private var curTime: Number;
@@ -30,8 +30,15 @@
 			dataM = new DataManager(this);
 			input = new InputManager();
 			
-			game.addObject(dataM.loadTestObj());
-			game.addObject(dataM.loadBlockObj());
+			//game.addObject(dataM.loadTestObj());
+			//game.addObject(dataM.loadBlockObj());
+			game.addObject(dataM.loadUser(100, 100));
+			game.addObject(dataM.loadUser(400, 0));
+			game.addObject(dataM.loadUser(600, 0));
+			//game.addObject(dataM.loadTestFloor());
+			game.addObject(dataM.loadPlatform(400, 400, 800, 100));
+			game.addObject(dataM.loadPlatform(400, 275, 100, 150));
+			
 			
 			lastTime = 0;
 			curTime = 0;
@@ -79,30 +86,24 @@
 			{
 				//W
 				case 87:
-					game.removeObject(MovieClip(this.getChildAt(0)));
 					break;
 				//A
 				case 65:
-					game.clearWorld();
 					break;
 				//S
 				case 83:
-					game.addObject(dataM.loadTestObj());
 					break;
 				//D
 				case 68:
-					game.addObject(dataM.loadHitObj());
 					break;
 				//Q
 				case 81:
-					game.addObject(dataM.loadBlockObj());
 					break;
 				//E
 				case 69:
 					break;
 				//SPACE
 				case 32:
-					game.player.clearSelection();
 					break;
 				default:
 					break;

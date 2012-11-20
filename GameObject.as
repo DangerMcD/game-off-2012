@@ -20,7 +20,7 @@
 		
 		public function removeMouseHighlight()
 		{
-			trace("REMOVE HIGHLIGHT");
+			//trace("REMOVE HIGHLIGHT");
 			this.removeEventListener(MouseEvent.MOUSE_OVER, addHighlight);
 			this.removeEventListener(MouseEvent.MOUSE_OUT, removeHighlight);
 		}
@@ -48,7 +48,7 @@
 			glow.alpha = 1;
 			glow.blurX = 40;
 			glow.blurY = 40;
-			glow.quality = BitmapFilterQuality.LOW;
+			glow.quality = BitmapFilterQuality.MEDIUM;
 			
 			this.filters = [glow];
 		}
@@ -67,7 +67,7 @@
 			glow.alpha = 1;
 			glow.blurX = 40;
 			glow.blurY = 40;
-			glow.quality = BitmapFilterQuality.LOW;
+			glow.quality = BitmapFilterQuality.MEDIUM;
 			
 			this.filters = [glow];
 		}
@@ -75,6 +75,19 @@
 		public function removeGlow()
 		{
 			this.filters = [];
+		}
+		
+		public function addPoofGlow()
+		{
+			var glow:GlowFilter = new GlowFilter();
+			
+			glow.color = 0xCC3399;
+			glow.alpha = 1;
+			glow.blurX = 40;
+			glow.blurY = 40;
+			glow.quality = BitmapFilterQuality.MEDIUM;
+			
+			this.filters = [glow];
 		}
 	}
 }

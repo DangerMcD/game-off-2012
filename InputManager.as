@@ -1,20 +1,51 @@
 ﻿package
 {
-	//Probably don't need it, we'll see
+	//Input class to interpret asynchronous as well as smooth movement
 	public class InputManager
 	{
 		//NO ENUMS IN AS3, THIS IS WHY I DRINK
-		var W:Boolean;
-		var A:Boolean;
-		var S:Boolean;
-		var D:Boolean;
-		var Q:Boolean;
-		var E:Boolean;
-		var SPACE:Boolean;
-				
+		public static const W:uint = 87;
+		public static const A:uint = 65;
+		public static const S:uint = 83;
+		public static const D:uint = 68;
+		public static const Q:uint = 81;
+		public static const E:uint = 69;
+		public static const SPACE:uint = 32;
+		
+		private var keyW:Boolean;
+		private var keyA:Boolean;
+		private var keyS:Boolean;
+		private var keyD:Boolean;
+		private var keyQ:Boolean;
+		private var keyE:Boolean;
+		private var keySPACE:Boolean;
+						
 		public function InputManager()
 		{
-			W = A = S = D = Q = E = SPACE = false;
+			keyW = keyA = keyS = keyD = keyQ = keyE = keySPACE = false;
+		}
+		
+		public function keyDown(key:uint):Boolean
+		{
+			switch(key)
+			{
+				case W:
+					return keyW;
+				case A:
+					return keyA;
+				case S:
+					return keyS;
+				case D:
+					return keyD;
+				case Q:
+					return keyQ;
+				case E:
+					return keyE;
+				case SPACE:
+					return keySPACE;
+				default:
+					return false;
+			}
 		}
 		
 		//FALSE IF UP, TRUE IF DOWN
@@ -22,33 +53,26 @@
 		{
 			switch(code)
 			{
-				//W
-				case 87:
-					W = true;
+				case W:
+					keyW = true;
 					break;
-				//A
-				case 65:
-					A = true;
+				case A:
+					keyA = true;
 					break;
-				//S
-				case 83:
-					S = true;
+				case S:
+					keyS = true;
 					break;
-				//D
-				case 68:
-					D = true;
+				case D:
+					keyD = true;
 					break;
-				//Q
-				case 81:
-					Q = true;
+				case Q:
+					keyQ = true;
 					break;
-				//E
-				case 69:
-					E = true;
+				case E:
+					keyE = true;
 					break;
-				//SPACE
-				case 32:
-					SPACE = true;
+				case SPACE:
+					keySPACE = true;
 					break;
 				default:
 					break;
@@ -60,33 +84,26 @@
 		{
 			switch(code)
 			{
-				//W
-				case 87:
-					W = false;
+				case W:
+					keyW = false;
 					break;
-				//A
-				case 65:
-					A = false;
+				case A:
+					keyA = false;
 					break;
-				//S
-				case 83:
-					S = false;
+				case S:
+					keyS = false;
 					break;
-				//D
-				case 68:
-					D = false;
+				case D:
+					keyD = false;
 					break;
-				//Q
-				case 81:
-					Q = false;
+				case Q:
+					keyQ = false;
 					break;
-				//E
-				case 69:
-					E = false;
+				case E:
+					keyE = false;
 					break;
-				//SPACE
-				case 32:
-					SPACE = false;
+				case SPACE:
+					keySPACE = false;
 					break;
 				default:
 					break;
