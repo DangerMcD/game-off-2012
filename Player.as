@@ -30,12 +30,12 @@
 			currentSelection.push(obj);
 			
 			var user:User = User(obj);
-			if(user.partner != null)
-				user.partner.addPoofGlow();
-			else if(user.master != null)
-				user.master.addPoofGlow();
 			
-			trace("Selection: " + currentSelection.length);
+			if(user.getTarget() != null)
+				user.getTarget().addPoofGlow();
+			
+			trace("Selection: " + user.targets.length);
+			//trace("Selection: " + currentSelection.length);
 		}
 		
 		//Remove from selection of objects
@@ -96,20 +96,9 @@
 			newUser.size = user.size;
 			newUser.maxSize = user.maxSize;
 			
-			//Check for root
-			if(user.partner == null && user.master == null)
-			{
-				//You are your own best friend
-				user.partner = user;
-				user.master = user;
-			}
-			
-			//If you came from the user, it is your root
-			newUser.master = user;
-			
-			//Make split partner
-			newUser.partner = user;
-			user.partner = newUser;
+			//Add to targets
+			user.addTarget(newUser);
+			newUser.addTarget(user);
 			
 			//Force collision
 			newUser.hardMove(1, 0);
@@ -122,31 +111,32 @@
 		{
 			var newScale:Number = user.size / user.maxSize;
 			
-			//The master branch is attached to this user, so don't kill him
-			if(user.master == user)
+			//Get target for jump
+			if(user.getTarget == null)
 			{
-				user.x = user.partner.x;
-				user.y = user.partner.y;
-				user.scaleX = newScale;
-				user.scaleY = newScale;
-				user.hardMove(1,0);
-				
-				game.removeObject(user.partner);
+				trace("NO TARGET, GAME IS BROKE AS SHIT");
+				return;
 			}
-			else //The master branch is on your partner. Kill this user and go to partner
-			{
-				var master:User = user.partner;
-				
-				master.size = user.size;
-				master.hardMove(1,0);
-				master.scaleX = newScale;
-				master.scaleY = newScale;
-				addSelection(master);
-				master.addGlow(null);
-				master.partner = null;
-				
-				game.removeObject(user);
-			}
+			var master:User = User(user.getTarget());
+			
+			//Set selection data
+			master.size = user.size;
+			master.hardMove(1,0);
+			master.scaleX = newScale;
+			master.scaleY = newScale;
+			addSelection(master);
+			master.addGlow(null);
+			
+			//Set target data
+			user.removeTarget(master);
+			master.removeTarget(user);
+			master.joinTargets(user);
+			
+			//Poll list of users
+			
+			
+			//Remove original
+			game.removeObject(user);
 		}
 		
 		//Pass in game too. Good chance a new object will need to be created or destroyed.

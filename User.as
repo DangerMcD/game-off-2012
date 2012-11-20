@@ -1,15 +1,15 @@
 ﻿package
 {
+	import flash.display.MovieClip;
 	public class User extends PhysObject
 	{
-		public static var GREY:uint = 0;		
+		public static const GREY:uint = 0;		
 		public var color:uint = GREY;
 		
 		//Cloning stuff
 		public var size:uint;
 		public var maxSize:uint;
-		public var master:User = null;
-		public var partner:User = null;
+		public var targets:Array = new Array();
 		
 		public function User()
 		{
@@ -38,7 +38,7 @@
 		{
 			size += 1;
 			
-			if(size > maxSize || (partner == null && master == null))
+			if(size > maxSize)
 			{
 				size = maxSize
 				trace("Nothing to combine: " + size);
@@ -46,6 +46,37 @@
 			}
 			trace("Combining: " + size);
 			return true;
+		}
+		
+		//Adds a poof target
+		public function addTarget(user:User)
+		{
+			if(targets.indexOf(user) == -1)
+				targets.push(user);
+				
+			trace("TARGETS: " + targets.length);
+		}
+		
+		//Remove a target
+		public function removeTarget(user:User)
+		{
+			var i:int = targets.indexOf(user);
+			if(i != -1)
+				targets.splice(i, 1);
+		}
+		
+		//Get the latest target
+		public function getTarget() : User
+		{
+			if(targets.length != 0)
+				return targets[targets.length - 1];
+			return null;
+		}
+		
+		//Join the targets
+		public function joinTargets(user:User)
+		{
+			targets = targets.concat(user.targets);
 		}
 		
 		override public function action()
