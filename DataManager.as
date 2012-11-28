@@ -106,5 +106,41 @@
 			return obj;
 		}
 		
+		public function loadTask(xPos:Number, yPos:Number, scale:Number = 1):MovieClip
+		{
+			var obj:Task = new Task();
+			
+			obj.x = xPos;
+			obj.y = yPos;
+			
+			obj.scaleX = scale;
+			obj.scaleY = scale;
+			
+			obj.hardMove(1, 0);
+			obj.attachMouseHighlight();
+			obj.attachMouseSelection(main.game.player);
+			
+			obj.addAttachment(new Attachment(50));
+			obj.addAttachment(new Attachment(-50));
+			
+			return obj;
+		}
+		
+		public function loadCaptureZone(xPos:Number, yPos:Number, w:Number, h:Number):MovieClip
+		{
+			var obj:Capture = new Capture();
+			
+			obj.x = xPos;
+			obj.y = yPos;
+			
+			//Scaling without stroke (strokes should be visual)
+			var xScale:Number = w / obj.getRect(obj).width;
+			var yScale:Number = h / obj.getRect(obj).height;
+						
+			obj.scaleX = xScale;
+			obj.scaleY = yScale;
+			
+			return obj;
+		}
 	}
 }

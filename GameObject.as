@@ -89,5 +89,9 @@
 			
 			this.filters = [glow];
 		}
+		
+		public function Update(dt:Number)
+		{
+		}
 	}
 }

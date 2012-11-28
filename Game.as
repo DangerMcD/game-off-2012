@@ -16,6 +16,7 @@
 		
 		public var worldObjects: Array;
 		public var player:Player;
+		public var captureZone:Capture;
 		
 		public function Game(m:Main)
 		{
@@ -26,6 +27,12 @@
 			player = new Player(this);
 			
 			trace("Game Created");
+		}
+		
+		public function addCaptureZone(capture:MovieClip)
+		{
+			captureZone = Capture(capture);
+			main.addChild(capture);
 		}
 		
 		//Add Object to World
@@ -60,12 +67,24 @@
 			//trace("Objects: " + worldObjects.length);
 		}
 		
+		public function checkCapture(task:Task)
+		{
+			if(physics.testAABB(task, captureZone))
+			{
+				task.captured = true;
+				task.currentDirection = 0;
+				task.clearUsers();
+			}
+		}
+		
 		//Game Loop
 		public function Update(dt:Number)
 		{
+			physics.findAttachments(worldObjects);
 			player.UpdateInput(main.input);
 			for(var i:int = 0; i < worldObjects.length; i++)
 			{
+				worldObjects[i].Update(dt);
 				physics.moveBySpeed(worldObjects[i] as PhysObject, dt);
 			}
 		}

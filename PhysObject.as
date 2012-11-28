@@ -6,6 +6,7 @@
 	public class PhysObject extends GameObject
 	{
 		var speed:Number;
+		var maxSpeed:Number;
 		var velX:Number;
 		var velY:Number;
 		
@@ -13,7 +14,8 @@
 		
 		public function PhysObject()
 		{
-			speed = 350;
+			speed = 0;
+			maxSpeed = 350;
 			velX = 0;
 			velY = 0;
 			sleeping = true;
@@ -31,13 +33,20 @@
 		public function addMove(vX:Number, vY:Number)
 		{
 			velX += vX;
-			if(velX > speed)
-				velX = speed;
-			if(velX < -speed)
-				velX = -speed;
+			if(velX > maxSpeed)
+				velX = maxSpeed;
+			if(velX < -maxSpeed)
+				velX = -maxSpeed;
 			
 			velY += vY;
 			sleeping = false;
+		}
+		
+		public function stopMove()
+		{
+			velX = 0;
+			velY = 0;
+			sleeping = true;
 		}
 		
 		//Quality of Life Jump function
@@ -51,7 +60,7 @@
 			}
 		}
 		
-		public function action()
+		public function action(player:Player)
 		{
 			//overridable function for when action key is pressed
 			trace("Physics ACTION");

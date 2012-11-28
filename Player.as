@@ -7,7 +7,7 @@
 	public class Player
 	{
 		private var currentSelection : Array;
-		private var game:Game;
+		public var game:Game;
 		
 		//Helper variables for single press
 		private var ACTION:Boolean = false;
@@ -29,12 +29,13 @@
 			obj.removeMouseSelection(this);
 			currentSelection.push(obj);
 			
-			var user:User = User(obj);
 			
-			if(user.getTarget() != null)
-				user.getTarget().addPoofGlow();
-			
-			trace("Selection: " + user.targets.length);
+			if(currentSelection[0] is User)
+			{
+				var user:User = User(obj);
+				if(user.master != null)
+					user.master.addPoofGlow();
+			}
 			//trace("Selection: " + currentSelection.length);
 		}
 		
@@ -87,59 +88,62 @@
 		
 		private function cloneUser(user:User)
 		{
-			var newScale:Number = user.size / user.maxSize;
-			user.scaleX = newScale;
-			user.scaleY = newScale;
+			//Root check for initial User
+			if(user.master == null)
+			{
+				user.master = user;
+				//user.master.splits -= 1;
+			}
 			
-			var newUser:User = User(game.main.dataM.loadUser(user.x, user.y, newScale));
+			if(user != user.master)
+				return;
 			
-			newUser.size = user.size;
-			newUser.maxSize = user.maxSize;
+			var newUser:User = User(game.main.dataM.loadUser(user.x, user.y, 1.0));
+						
+			//Add master
+			newUser.master = user.master;
+			newUser.assignScale();
 			
-			//Add to targets
-			user.addTarget(newUser);
-			newUser.addTarget(user);
+			//user.cloneMaster();
+			user.assignScale();
+			
+			user.x -= newUser.width;
+			newUser.x += newUser.width;
 			
 			//Force collision
 			newUser.hardMove(1, 0);
 			user.hardMove(1,0);
 			
 			game.addObject(newUser);
+			
+			trace("Total Splits: " + (user.master.maxSplits - user.master.splits));
 		}
 		
 		private function combineUser(user:User)
 		{
-			var newScale:Number = user.size / user.maxSize;
-			
 			//Get target for jump
-			if(user.getTarget == null)
+			if(user.master == null || user.master == user)
 			{
 				trace("NO TARGET, GAME IS BROKE AS SHIT");
 				return;
 			}
-			var master:User = User(user.getTarget());
+
+			var master:User = User(user.master);			
+			master.combineMaster(user);
 			
 			//Set selection data
-			master.size = user.size;
 			master.hardMove(1,0);
-			master.scaleX = newScale;
-			master.scaleY = newScale;
 			addSelection(master);
 			master.addGlow(null);
 			
-			//Set target data
-			user.removeTarget(master);
-			master.removeTarget(user);
-			master.joinTargets(user);
-			
-			//Poll list of users
-			
+			trace("Split: " + (master.splits) + ", " + master.maxSplits);
 			
 			//Remove original
 			game.removeObject(user);
 		}
 		
-		//Pass in game too. Good chance a new object will need to be created or destroyed.
+		//Get input
+		//Tedious as hell, use some inheritance if time permits
 		public function UpdateInput(input:InputManager)
 		{
 			if(currentSelection.length == 0)
@@ -148,42 +152,90 @@
 			//Basic Handling
 			if(input.keyDown(InputManager.W))
 			{
-				currentSelection[0].jump(-500);
+				if(currentSelection[0] is User)
+				{
+					var user:User = User(currentSelection[0]);
+					if(!user.isAttached())
+						user.jump(-500);
+				}
 			}
 			
 			if(input.keyDown(InputManager.A))
 			{
-				currentSelection[0].addMove(-350, 0);
+				if(currentSelection[0] is User)
+				{
+					user = User(currentSelection[0]);
+					if(!user.isAttached())
+						user.addMove(-350, 0);
+				}
+				else if(currentSelection[0] is Task)
+				{
+					var task:Task = Task(currentSelection[0]);
+					task.currentDirection = -1;
+				}
 			}
 			
 			if(input.keyDown(InputManager.S))
-			{
-				currentSelection[0].scaleX += 0.01;
-				currentSelection[0].scaleY += 0.01;
+			{				
+				if(currentSelection[0] is User)
+				{
+					user = User(currentSelection[0]);
+					if(!user.isAttached())
+					{
+						//user.scaleX += 0.01;
+						//user.scaleY += 0.01;
+					}
+				}
+				else if(currentSelection[0] is Task)
+				{
+					task = Task(currentSelection[0]);
+					task.currentDirection = 0;
+					game.checkCapture(task);
+				}
 			}
 			
 			if(input.keyDown(InputManager.D))
-			{
-				currentSelection[0].addMove(350, 0);
+			{				
+				if(currentSelection[0] is User)
+				{
+					user = User(currentSelection[0]);
+					if(!user.isAttached())
+					{
+						user.addMove(350, 0);
+					}
+				}
+				else if(currentSelection[0] is Task)
+				{
+					task = Task(currentSelection[0]);
+					task.currentDirection = 1;
+				}
 			}
 			
 			if(input.keyDown(InputManager.Q))
 			{
-				if(!COMBINE)
+				if(currentSelection[0] is User)
 				{
-					COMBINE = true;
-					if(User(currentSelection[0]).combine())
-						combineUser(currentSelection[0] as User);
+					user = User(currentSelection[0]);
+					if(!COMBINE)
+					{
+						COMBINE = true;
+						if(!user.isAttached() && user.combine())
+							combineUser(user);
+					}
 				}
 			}
 			
 			if(input.keyDown(InputManager.E))
 			{
-				if(!CLONE)
+				if(currentSelection[0] is User)
 				{
-					CLONE = true;
-					if(User(currentSelection[0]).cloneMe())
-						cloneUser(currentSelection[0] as User);
+					user = User(currentSelection[0]);
+					if(!CLONE)
+					{
+						CLONE = true;
+						if(!user.isAttached() && user.cloneMe())
+							cloneUser(user);
+					}
 				}
 			}
 			
@@ -192,7 +244,7 @@
 				if(!ACTION)
 				{
 					ACTION = true;
-					currentSelection[0].action();
+					currentSelection[0].action(this);
 				}
 			}
 			

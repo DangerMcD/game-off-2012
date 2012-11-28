@@ -32,6 +32,11 @@
 			return obj1.hitTestObject(obj2);
 		}
 		
+		public function testInside(obj1:PhysObject, obj2:PhysObject):Boolean
+		{
+			return true;
+		}
+		
 		//AABB Collision for moving objects
 		//Obj1 is the Object that will be "fixed", the currently moving object
 		//Returns true if a fix happened
@@ -107,6 +112,38 @@
 					{
 						//trace(obj + "SLEEPING");
 						obj.sleeping = true;
+					}
+				}
+			}
+		}
+		
+		//Quick and dirty way for finding user attachments
+		public function findAttachments(gameObjects:Array)
+		{
+			for(var i:int = 0; i < gameObjects.length; i++)
+			{
+				if(!(gameObjects[i] is User))
+					continue;
+				else
+				{
+					var user:User = gameObjects[i];
+					user.possibleAttach = null;
+					for(var j:int = 0; j < gameObjects.length; j++)
+					{
+						if(gameObjects[j] == user)
+							continue;
+						//Could try attachment instead
+						if(gameObjects[j] is Task)
+						{
+							if(testAABB(user, gameObjects[j]))
+							{
+								user.possibleAttach = gameObjects[j];
+							}
+						}
+						else
+						{
+							continue;
+						}
 					}
 				}
 			}
