@@ -24,10 +24,10 @@
 		{
 			if(currentDirection != 0)
 			{
-				hardMove(currentDirection * speed, 0);
+				hardMoveX(currentDirection * speed);
 				for(var i:int = 0; i < users.length; i++)
 				{
-					users[i].hardMove(currentDirection * speed, 0);
+					users[i].hardMoveX(currentDirection * speed);
 				}
 			}
 		}
@@ -49,7 +49,7 @@
 		public function addAttachment(attachment:Attachment)
 		{
 			attachments.push(attachment);
-			this.addChild(attachment);
+			//this.addChild(attachment);
 		}
 		
 		//Remove the User
@@ -61,7 +61,7 @@
 					attachments[i].remove();
 			}
 			
-			var i:int = users.indexOf(user);
+			i = users.indexOf(user);
 			if(i != -1)
 				users.splice(i, 1);
 				

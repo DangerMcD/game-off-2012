@@ -13,65 +13,6 @@
 			main = m;
 		}
 		
-		public function loadTestObj() : MovieClip
-		{
-			trace("Object Made");
-			var obj:TestObj = new TestObj();
-			
-			obj.x = 300;
-			obj.y = 100;
-			
-			obj.attachMouseHighlight();
-			obj.attachMouseSelection(main.game.player);
-			return obj;
-		}
-		
-		public function loadHitObj() : MovieClip
-		{
-			trace("Object Made");
-			var obj:HitObj = new HitObj();
-			
-			obj.x = 250;
-			obj.y = 150;
-			
-			obj.attachMouseHighlight();
-			obj.attachMouseSelection(main.game.player);
-			return obj;
-		}
-		
-		public function loadBlockObj() : MovieClip
-		{
-			trace("Object Made");
-			var obj:BlockObj = new BlockObj();
-			
-			obj.x = 400;
-			obj.y = 300;
-			
-			return obj;
-		}
-		
-		public function loadPhysObj() : MovieClip
-		{
-			trace("Object Made");
-			var obj:PhysObj = new PhysObj();
-			
-			obj.x = 100;
-			obj.y = 100;
-						
-			return obj;
-		}
-		
-		public function loadTestFloor() : MovieClip
-		{
-			trace("Floor Made");
-			var obj:TestFloor = new TestFloor();
-			
-			obj.x = 400;
-			obj.y = 400;
-			
-			return obj;
-		}
-		
 		public function loadPlatform(xPos:Number, yPos:Number, w:Number, h:Number):MovieClip
 		{
 			var obj:Platform = new Platform();

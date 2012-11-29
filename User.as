@@ -92,11 +92,12 @@
 			var newScale:Number=0;
 			if (master==this)
 			{
-				newScale = (splits) / maxSplits;
+				newScale = (splits + maxSplits) / (maxSplits * 2);
+				trace((splits / maxSplits) + ", " + newScale);
 			}
 			else
 			{
-				newScale=SIZE_1/maxSplits;
+				newScale = (SIZE_1 + maxSplits) / (maxSplits * 2);
 
 			}
 			this.scaleX=newScale;
@@ -112,7 +113,14 @@
 		{
 			return possibleAttach != null;
 		}
-
+		
+		override public function removeGlow()
+		{
+			this.filters = [];
+			if(master != null)
+				master.filters = [];
+		}
+		
 		override public function action(player:Player)
 		{
 			//Overriding action key

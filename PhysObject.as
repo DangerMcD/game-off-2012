@@ -29,6 +29,13 @@
 			sleeping = false;
 		}
 		
+		//Overrides movement just for X
+		public function hardMoveX(vX:Number)
+		{
+			velX = vX;
+			sleeping = false;
+		}
+		
 		//Additive movement
 		public function addMove(vX:Number, vY:Number)
 		{

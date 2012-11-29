@@ -31,15 +31,15 @@
 			input = new InputManager();
 			
 			game.addCaptureZone(dataM.loadCaptureZone(650, 275, 250, 150));
+			//game.addObject(dataM.loadPlatform(400, 275, 100, 150));
 			game.addObject(dataM.loadPlatform(400, 400, 800, 100));
 			//game.addObject(dataM.loadTestObj());
 			//game.addObject(dataM.loadBlockObj());
+			game.addObject(dataM.loadTask(400, 0));
 			game.addObject(dataM.loadUser(100, 100));
 			//game.addObject(dataM.loadUser(400, 0));
-			game.addObject(dataM.loadTask(400, 0));
 			game.addObject(dataM.loadUser(600, 0));
 			//game.addObject(dataM.loadTestFloor());
-			//game.addObject(dataM.loadPlatform(400, 275, 100, 150));
 			
 			
 			lastTime = 0;

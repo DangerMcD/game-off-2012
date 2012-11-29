@@ -29,11 +29,10 @@
 			obj.removeMouseSelection(this);
 			currentSelection.push(obj);
 			
-			
 			if(currentSelection[0] is User)
 			{
 				var user:User = User(obj);
-				if(user.master != null)
+				if(user.master != null && user.master != user)
 					user.master.addPoofGlow();
 			}
 			//trace("Selection: " + currentSelection.length);
