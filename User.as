@@ -16,15 +16,20 @@
 		public var maxSplits:uint;
 		public var master:User;
 
-		public var attached:PhysObject=null;
-		public var possibleAttach:PhysObject=null;
+		public var attached:GameObject=null;
+		public var possibleAttach:GameObject=null;
 
 		public function User()
 		{
 			//size = maxSize = 4;
 			splits=maxSplits=SIZE_3;
 		}
-
+		
+		public function setSplits(size:int)
+		{
+			splits=maxSplits=size;
+		}
+		
 		//Clone/Split logic
 		//Returns true if successful cloning
 		public function cloneMe():Boolean
@@ -134,10 +139,14 @@
 						this.stopMove();
 						attached=possibleAttach;
 						player.removeSelection(this);
-						player.addSelection(attached);
+						player.addSelection(PhysObject(attached));
 						attached.addGlow(null);
 						trace("attached");
 					}
+				}
+				else if(possibleAttach is Door && player.game.isComplete())
+				{
+					player.game.levelCompleted();
 				}
 			}
 			else if (isAttached())

@@ -32,6 +32,12 @@
 			}
 		}
 		
+		public function changeDirection(d:int)
+		{
+			if(!captured)
+				currentDirection = d;
+		}
+		
 		//Attach User to Task
 		public function attachUser(user:User) : Boolean
 		{

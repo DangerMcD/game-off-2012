@@ -123,7 +123,7 @@
 			//Get target for jump
 			if(user.master == null || user.master == user)
 			{
-				trace("NO TARGET, GAME IS BROKE AS SHIT");
+				trace("NO TARGET");
 				return;
 			}
 
@@ -170,7 +170,7 @@
 				else if(currentSelection[0] is Task)
 				{
 					var task:Task = Task(currentSelection[0]);
-					task.currentDirection = -1;
+					task.changeDirection(-1);
 				}
 			}
 			
@@ -206,7 +206,7 @@
 				else if(currentSelection[0] is Task)
 				{
 					task = Task(currentSelection[0]);
-					task.currentDirection = 1;
+					task.changeDirection(1);
 				}
 			}
 			

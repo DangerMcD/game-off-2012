@@ -103,7 +103,7 @@
 			//Crap detection
 			for(var i:int = 0; i < game.worldObjects.length; i++)
 			{
-				if(game.worldObjects[i] == obj || game.worldObjects[i] is PhysObject)
+				if(game.worldObjects[i] == obj || !(game.worldObjects[i] is Platform))
 					continue;
 				
 				if(resolveAABB(obj, game.worldObjects[i]))
@@ -133,7 +133,7 @@
 						if(gameObjects[j] == user)
 							continue;
 						//Could try attachment instead
-						if(gameObjects[j] is Task)
+						if(gameObjects[j] is Task || gameObjects[j] is Door)
 						{
 							if(testAABB(user, gameObjects[j]))
 							{

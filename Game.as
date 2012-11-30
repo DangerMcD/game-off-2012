@@ -23,6 +23,15 @@
 		//Timer for level time
 		public var timer:Number;
 		
+		//Level numbers, just for level navigation
+		public var level:int;
+		
+		public var tasks:int;
+		public var tasksComplete:int;
+		
+		//Quick find for Door
+		public var door:Door = null;
+		
 		//Text Fields
 		var formatTxt:TextFormat = new TextFormat();
 		var timeTxt:TextField = new TextField();
@@ -37,6 +46,9 @@
 			
 			//Timer stuff
 			timer = 0;
+			
+			//Start with level 1
+			level = 1;
 			
 			//Text Stuff
 			formatTxt.size = 22;
@@ -60,23 +72,40 @@
 			
 			main.addChild(timeTxt);
 			
-			levelStart();
 			trace("Game Created");
 		}
 		
+		//Level state settings
 		public function levelStart()
 		{
 			timer = 0;
+			tasksComplete = 0
 		}
 		
 		public function levelCompleted()
 		{
+			level += 1;
+			main.dataM.loadLevel(level);
 		}
 		
+		public function levelRestart()
+		{
+			main.dataM.loadLevel(level);
+			levelStart();
+		}
+		
+		//set the capture zone
 		public function addCaptureZone(capture:MovieClip)
 		{
 			captureZone = Capture(capture);
 			main.addChild(capture);
+		}
+		
+		//set the capture zone
+		public function addDoor(d:MovieClip)
+		{
+			door = Door(d);
+			addObject(d);
 		}
 		
 		//Add Object to World
@@ -108,6 +137,13 @@
 				main.removeChild(obj);
 			}
 			player.clearSelection();
+			
+			if(captureZone != null)
+			{
+				main.removeChild(captureZone);
+				captureZone = null;
+			}
+			door = null;
 			//trace("Objects: " + worldObjects.length);
 		}
 		
@@ -118,7 +154,22 @@
 				task.captured = true;
 				task.currentDirection = 0;
 				task.clearUsers();
+				tasksComplete += 1;
+				checkCompletion();
 			}
+		}
+		
+		public function checkCompletion()
+		{
+			if(isComplete())
+			{
+				door.gotoAndStop(2);
+			}
+		}
+		
+		public function isComplete():Boolean
+		{
+			return tasks == tasksComplete;
 		}
 		
 		//Game Loop
