@@ -27,7 +27,19 @@
 				hardMoveX(currentDirection * speed);
 				for(var i:int = 0; i < users.length; i++)
 				{
+					var diffX:Number = users[i].x - this.x;
+					var diffY:Number = users[i].y - this.y;
+		
+					var distance:Number = (diffX * diffX) + (diffY * diffY);
+					distance = Math.sqrt(distance);
 					users[i].hardMoveX(currentDirection * speed);
+					
+					if(distance > ((this.width / 2) + (users[i].width / 2) + 10))
+					{
+						currentDirection = 0;
+						clearUsers();
+						break;
+					}
 				}
 			}
 		}

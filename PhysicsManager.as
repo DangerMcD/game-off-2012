@@ -74,7 +74,10 @@
 				else
 				{
 					obj1.y -= fixY;
-					obj1.velY = 0;
+					if(obj1.velY > 0)
+						obj1.velY = 0;
+					else
+						obj1.velY = -1;
 				}
 				
 				return true;

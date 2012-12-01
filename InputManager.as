@@ -10,6 +10,7 @@
 		public static const D:uint = 68;
 		public static const Q:uint = 81;
 		public static const E:uint = 69;
+		public static const R:uint = 82;
 		public static const SPACE:uint = 32;
 		
 		private var keyW:Boolean;
@@ -18,6 +19,7 @@
 		private var keyD:Boolean;
 		private var keyQ:Boolean;
 		private var keyE:Boolean;
+		private var keyR:Boolean;
 		private var keySPACE:Boolean;
 						
 		public function InputManager()
@@ -41,6 +43,8 @@
 					return keyQ;
 				case E:
 					return keyE;
+				case R:
+					return keyR;
 				case SPACE:
 					return keySPACE;
 				default:
@@ -70,6 +74,9 @@
 					break;
 				case E:
 					keyE = true;
+					break;
+				case R:
+					keyR = true;
 					break;
 				case SPACE:
 					keySPACE = true;
@@ -101,6 +108,9 @@
 					break;
 				case E:
 					keyE = false;
+					break;
+				case R:
+					keyR = false;
 					break;
 				case SPACE:
 					keySPACE = false;

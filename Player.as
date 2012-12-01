@@ -13,6 +13,7 @@
 		private var ACTION:Boolean = false;
 		private var CLONE:Boolean = false;
 		private var COMBINE:Boolean = false;
+		private var RESET:Boolean = false;
 		
 		public function Player(g:Game)
 		{
@@ -97,7 +98,7 @@
 			if(user != user.master)
 				return;
 			
-			var newUser:User = User(game.main.dataM.loadUser(user.x, user.y, 1.0));
+			var newUser:User = User(game.main.dataM.loadUser(user.x, user.y, user.maxSplits));
 						
 			//Add master
 			newUser.master = user.master;
@@ -189,7 +190,8 @@
 				{
 					task = Task(currentSelection[0]);
 					task.currentDirection = 0;
-					game.checkCapture(task);
+					//currentSelection[0].action(this);
+					//game.checkCapture(task);
 				}
 			}
 			
@@ -247,6 +249,16 @@
 				}
 			}
 			
+			if(input.keyDown(InputManager.R))
+			{
+				if(!RESET)
+				{
+					RESET = true;
+					game.levelRestart();
+				}
+			}
+										
+			
 			//Cycling for single press
 			if(!input.keyDown(InputManager.Q))
 			{
@@ -259,6 +271,10 @@
 			if(!input.keyDown(InputManager.SPACE))
 			{
 				ACTION = false;
+			}
+			if(!input.keyDown(InputManager.R))
+			{
+				RESET = false;
 			}
 		}
 	}

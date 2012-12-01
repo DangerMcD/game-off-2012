@@ -29,7 +29,7 @@
 			
 			dataM = new DataManager(this);
 			input = new InputManager();
-			
+						
 			dataM.loadLevel(game.level);			
 			
 			lastTime = 0;
@@ -96,6 +96,9 @@
 					break;
 				//SPACE
 				case 32:
+					break;
+				//R
+				case 82:
 					break;
 				default:
 					break;

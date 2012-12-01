@@ -70,6 +70,10 @@
 			glow.quality = BitmapFilterQuality.HIGH;
 			timeTxt.filters = [glow];
 			
+			main.txt1.filters = [glow];
+			main.txt2.filters = [glow];
+			main.txt3.filters = [glow];
+			
 			main.addChild(timeTxt);
 			
 			trace("Game Created");
