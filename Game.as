@@ -161,6 +161,7 @@
 					task.currentDirection = 0;
 					task.clearUsers();
 					tasksComplete += 1;
+					removeObject(task);
 					checkCompletion();
 				}
 			}

@@ -92,7 +92,10 @@
 			for(var i:int = 0; i < users.length; i++)
 			{
 				users[i].attached = null;
-				removeUser(users[i]);
+			}
+			while(users.length != 0)
+			{
+				removeUser(users[0]);
 			}
 		}
 		
