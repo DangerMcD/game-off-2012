@@ -1,6 +1,6 @@
 ## Clone Source
 
-This short prototype game involves controlling one or more "Users" to accomplish a "Task" by cloning themselves and pushing or pulling boxes.
+This short prototype strategy platformer game involves controlling one or more "Users" to accomplish a "Task" by cloning themselves and pushing or pulling boxes.
 The player uses these abilities to move each Task into the Completion Zone. Once all Tasks are completed, a Door will open and the player can progress.
 
 ## Basic Controls
