@@ -153,13 +153,16 @@
 		
 		public function checkCapture(task:Task)
 		{
-			if(physics.testAABB(task, captureZone))
+			if(!task.captured)
 			{
-				task.captured = true;
-				task.currentDirection = 0;
-				task.clearUsers();
-				tasksComplete += 1;
-				checkCompletion();
+				if(physics.testAABB(task, captureZone))
+				{
+					task.captured = true;
+					task.currentDirection = 0;
+					task.clearUsers();
+					tasksComplete += 1;
+					checkCompletion();
+				}
 			}
 		}
 		
